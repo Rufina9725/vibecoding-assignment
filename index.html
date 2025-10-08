@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mini E-Learning Platform</title>
+  <style>
+    body {
+      font-family: "Poppins", sans-serif;
+      background-color: #f8f9fa;
+      margin: 0;
+      padding: 0;
+      color: #333;
+    }
+
+    header {
+      background-color: #007bff;
+      color: white;
+      text-align: center;
+      padding: 1rem;
+    }
+
+    .container {
+      width: 90%;
+      max-width: 900px;
+      margin: 2rem auto;
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
+
+    .course-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .course-card {
+      background: white;
+      padding: 1.5rem;
+      border-radius: 10px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      transition: transform 0.2s;
+      cursor: pointer;
+    }
+
+    .course-card:hover {
+      transform: scale(1.03);
+    }
+
+    button {
+      background-color: #007bff;
+      color: white;
+      border: none;
+      padding: 0.6rem 1.2rem;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+
+    .back-btn {
+      margin-bottom: 1rem;
+      background-color: #6c757d;
+    }
+
+    .back-btn:hover {
+      background-color: #5a6268;
+    }
+
+    .progress {
+      margin-top: 1rem;
+      font-weight: 500;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    li {
+      background: #e9ecef;
+      margin-bottom: 0.5rem;
+      padding: 0.6rem;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Mini E-Learning Platform</h1>
+  </header>
+
+  <div class="container" id="app"></div>
+
+  <script>
+    const courses = [
+      {
+        id: 1,
+        title: "Intro to HTML",
+        description: "Learn the basics of HTML structure and tags.",
+        lessons: ["HTML Structure", "Common Tags", "Links & Images"],
+        completed: false
+      },
+      {
+        id: 2,
+        title: "CSS Fundamentals",
+        description: "Understand how to style web pages with CSS.",
+        lessons: ["Selectors", "Colors & Fonts", "Flexbox Basics"],
+        completed: false
+      },
+      {
+        id: 3,
+        title: "JavaScript Basics",
+        description: "Get started with programming in JavaScript.",
+        lessons: ["Variables & Data Types", "Functions", "DOM Manipulation"],
+        completed: false
+      }
+    ];
+
+    const app = document.getElementById("app");
+
+    function renderHomePage() {
+      app.innerHTML = `
+        <h2>Available Courses</h2>
+        <div class="course-list">
+          ${courses.map(course => `
+            <div class="course-card" onclick="viewCourse(${course.id})">
+              <h3>${course.title}</h3>
+              <p>${course.description}</p>
+              <p class="progress">Status: ${course.completed ? "✅ Completed" : "⏳ In Progress"}</p>
+            </div>
+          `).join('')}
+        </div>
+      `;
+    }
+
+    function viewCourse(id) {
+      const course = courses.find(c => c.id === id);
+      app.innerHTML = `
+        <button class="back-btn" onclick="renderHomePage()">← Back to Courses</button>
+        <h2>${course.title}</h2>
+        <p>${course.description}</p>
+        <h4>Lessons</h4>
+        <ul>
+          ${course.lessons.map(lesson => `<li>${lesson}</li>`).join('')}
+        </ul>
+        <button onclick="markCompleted(${id})">${course.completed ? "Completed ✅" : "Mark as Completed"}</button>
+      `;
+    }
+
+    function markCompleted(id) {
+      const course = courses.find(c => c.id === id);
+      course.completed = true;
+      viewCourse(id);
+    }
+
+    // Initial render
+    renderHomePage();
+  </script>
+</body>
+</html>
